@@ -1,50 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using ToolsQA.Selenium_Basics;
 
 namespace ToolsQA.Pages
 {
-    class WikiPage
+    class WikiPage : BasePage
     {
-        [FindsBy(How = How.CssSelector, Using = "[href*='/w/index.php?title=Specjalna:Zaloguj&returnto=Wikipedia%3AStrona+g%C5%82%C3%B3wna']")]
-        private IWebElement _loginButton;
-
+        [FindsBy(How = How.XPath, Using = "//a[contains(text(),'Zaloguj się')]")] 
+        public IWebElement LoginButton { get; set; }
+      
         [FindsBy(How = How.Id, Using = "searchInput")]
-        private IWebElement _searchTextBox;
+        public IWebElement SearchTextBox { get; set; }
 
         [FindsBy(How = How.Id, Using = "searchButton")]
-        private IWebElement _searchButton;
+        public IWebElement SearchButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = "[href*='https://en.wikipedia.org/wiki/']")]
-        private IWebElement _languageButton;
+        [FindsBy(How = How.XPath, Using = "//a[@title='angielski']")]
+        public IWebElement EnglishPage { get; set; }
 
-        public WikiPage()
+        public WikiPage() : base()
         {
-           
-            PageFactory.InitElements(Driver.DriverInstance, this);
+            Driver.OpenPage("https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna");
         }
 
-        public void Login()
+        public static WikiPage CreateInstance()
         {
-            _loginButton.Click();
+            Driver.StartBrowser();
+            return new WikiPage();
         }
 
-        public void EnterSearchWord(string searchWord)
+        public static void CloseBrowser()
         {
-            _searchTextBox.SendKeys(searchWord);
+            Driver.CloseBrowser();
         }
 
-        public void HitSearchButton()
+        public IWebElement GetElementLoginTest()
         {
-            _searchButton.Click();
+            return Driver.DriverInstance.FindElement(By.CssSelector("[href*='/w/index.php?title=Specjalna:Strona_domowa&source=personaltoolslink&namespace=4']"));
         }
 
-        public void ChangeLanguage()
+        public IWebElement GetElementSearchTest()
         {
-            _languageButton.Click();
+            return Driver.DriverInstance.FindElement(By.CssSelector("[href*='/wiki/Kategoria:Strony_ujednoznaczniaj%C4%85ce']"));
+        }
+
+        public bool GetElementChangeLanguageTest()
+        {
+            return Driver.DriverInstance.Url.Contains("en.wikipedia.org");
         }
     }
+
 }

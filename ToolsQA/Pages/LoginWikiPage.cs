@@ -1,44 +1,19 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using ToolsQA.Selenium_Basics;
 
 namespace ToolsQA.Pages
 {
-    class LoginWikiPage
+    class LoginWikiPage : BasePage
     {
-
         [FindsBy(How = How.Id, Using = "wpName1")]
-        private IWebElement _userName;
+        public IWebElement UserName { get; set; }
 
         [FindsBy(How = How.Id, Using = "wpPassword1")]
-        private IWebElement _password;
+        public IWebElement Password { get; set; }
 
         [FindsBy(How = How.Id, Using = "wpLoginAttempt")]
-        private IWebElement _loginButton;
+        public IWebElement LoginButton { get; set; }
 
-
-        public LoginWikiPage()
-        {
-
-            PageFactory.InitElements(Driver.DriverInstance, this);
-        }
-
-        public void EnterUsername(string userName)
-        {
-            _userName.SendKeys(userName);
-        }
-
-        public void EnterPassword(string password)
-        {
-            _password.SendKeys(password);
-        }
-
-        public void LoginButtonClick()
-        {
-            _loginButton.Click();
-        }
+        public LoginWikiPage() : base() { }
     }
 }
