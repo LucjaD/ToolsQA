@@ -1,34 +1,41 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using System.Diagnostics;
 using ToolsQA.Pages;
-using ToolsQA.Selenium_Basics;
 
 namespace ToolsQA.Tests
 {
-    class SearchTest
+    class SearchTest 
     {
+        private WikiPage _wikiPage;
+
+        [SetUp]
+        public void SetUp()
+        {
+            BaseTest.StartBrowser();
+            _wikiPage = new WikiPage();
+        }
+
         [Test]
         public void SearchOne()
         {
-            var wikiPage = WikiPage.CreateInstance();
-            wikiPage.SearchTextBox.SendKeys("Hitler");
-            wikiPage.SearchButton.Click();
+            _wikiPage.SearchTextBox.SendKeys("Hitler");
+            _wikiPage.SearchButton.Click();
 
-            Debug.Assert(wikiPage.GetElementSearchTest().Displayed);
-            WikiPage.CloseBrowser();
+            Assert.IsFalse(_wikiPage.GetElementSearchTest().Displayed);
         }
 
         [Test]
         public void SearchMultiple()
         {
-            var wikiPage = WikiPage.CreateInstance();
+            _wikiPage.SearchTextBox.SendKeys("cos");
+            _wikiPage.SearchButton.Click();
 
-            wikiPage.SearchTextBox.SendKeys("cos");
-            wikiPage.SearchButton.Click();
+            Assert.IsTrue(_wikiPage.GetElementSearchTest().Displayed);
+        }
 
-            Debug.Assert(wikiPage.GetElementSearchTest().Displayed);
-            WikiPage.CloseBrowser();
+        [TearDown]
+        public void TearDownPage()
+        {
+            BaseTest.CloseBrowser();
         }
     }
 }

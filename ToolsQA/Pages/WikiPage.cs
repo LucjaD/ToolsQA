@@ -23,25 +23,14 @@ namespace ToolsQA.Pages
             Driver.OpenPage("https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna");
         }
 
-        public static WikiPage CreateInstance()
+        public IWebElement GetElementLoginTest(string element)
         {
-            Driver.StartBrowser();
-            return new WikiPage();
-        }
-
-        public static void CloseBrowser()
-        {
-            Driver.CloseBrowser();
-        }
-
-        public IWebElement GetElementLoginTest()
-        {
-            return Driver.DriverInstance.FindElement(By.CssSelector("[href*='/w/index.php?title=Specjalna:Strona_domowa&source=personaltoolslink&namespace=4']"));
+            return Driver.DriverInstance.FindElement(By.XPath("//a[contains(text(),element)]"));
         }
 
         public IWebElement GetElementSearchTest()
         {
-            return Driver.DriverInstance.FindElement(By.CssSelector("[href*='/wiki/Kategoria:Strony_ujednoznaczniaj%C4%85ce']"));
+            return Driver.DriverInstance.FindElement(By.XPath("//a[contains(text(), 'strona ujednoznaczniająca')]"));
         }
 
         public bool GetElementChangeLanguageTest()
@@ -49,5 +38,4 @@ namespace ToolsQA.Pages
             return Driver.DriverInstance.Url.Contains("en.wikipedia.org");
         }
     }
-
 }

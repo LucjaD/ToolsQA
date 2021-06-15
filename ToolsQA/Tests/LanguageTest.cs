@@ -1,20 +1,31 @@
 ﻿using NUnit.Framework;
-using System.Diagnostics;
 using ToolsQA.Pages;
-using ToolsQA.Selenium_Basics;
 
 namespace ToolsQA.Tests
 {
     class LanguageTest
     {
+        private WikiPage _wikiPage;
+
+        [SetUp]
+        public void SetUp()
+        {
+            BaseTest.StartBrowser();
+            _wikiPage = new WikiPage();
+        }
+
         [Test]
         public void ChangeLanguage()
         {
-            var wikiPage = WikiPage.CreateInstance();
-            wikiPage.EnglishPage.Click();
+            _wikiPage.EnglishPage.Click();
          
-            Debug.Assert(wikiPage.GetElementChangeLanguageTest());
-            WikiPage.CloseBrowser();
+            Assert.IsTrue(_wikiPage.GetElementChangeLanguageTest());
+        }
+
+        [TearDown]
+        public void TearDownPage()
+        {
+            BaseTest.CloseBrowser();
         }
     }
 }

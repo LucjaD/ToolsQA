@@ -1,45 +1,47 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using System.Diagnostics;
 using ToolsQA.Pages;
-using ToolsQA.Selenium_Basics;
 
 namespace ToolsQA.Tests
 {
     class LoginTest
     {
-        Cridentials cridentials = new Cridentials();
+        private WikiPage _wikiPage;
+        private const string _userName = "Testowanie1";
+        private const string _password = "Testy123";
+
+        [SetUp]
+        public void SetUp()
+        {
+            BaseTest.StartBrowser();
+            _wikiPage = new WikiPage();
+        }
 
         [Test]
         public void CorrectLogin()
         {
-            cridentials._username = "Testowanie1";
-            cridentials._password = "Testy123";
-
-            var wikiPage = WikiPage.CreateInstance();
-            wikiPage.LoginButton.Click();
+            _wikiPage.LoginButton.Click();
 
             var loginWikiPage = new LoginWikiPage();
-            cridentials.Login(loginWikiPage);
+            loginWikiPage.Login(new User(_userName, _password));
 
-            Debug.Assert(wikiPage.GetElementLoginTest().Text.Contains(cridentials._username));
-            WikiPage.CloseBrowser();
+            Assert.IsFalse(_wikiPage.GetElementLoginTest("Wyloguj").Displayed);
         }
 
         [Test]
         public void IncorrectLogin()
         {
-            cridentials._username = "Dupa";
-            cridentials._password = "Dupa";
-
-            var wikiPage = WikiPage.CreateInstance();
-            wikiPage.LoginButton.Click();
+            _wikiPage.LoginButton.Click();
 
             var loginWikiPage = new LoginWikiPage();
-            cridentials.Login(loginWikiPage);
+            loginWikiPage.Login(new User("Nie", "Nie"));
 
-            Debug.Assert(wikiPage.GetElementLoginTest().Text.Contains(cridentials._username));
-            WikiPage.CloseBrowser();
+           Assert.IsFalse(_wikiPage.GetElementLoginTest("Zaloguj się").Displayed);
+        }
+
+        [TearDown]
+        public void TearDownPage()
+        {
+            BaseTest.CloseBrowser();
         }
     }
 }

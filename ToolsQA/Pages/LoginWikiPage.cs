@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
+using ToolsQA.Tests;
 
 namespace ToolsQA.Pages
 {
@@ -15,5 +16,12 @@ namespace ToolsQA.Pages
         public IWebElement LoginButton { get; set; }
 
         public LoginWikiPage() : base() { }
+
+        public void Login(User user)
+        {
+            UserName.SendKeys(user.Username);
+            Password.SendKeys(user.Password);
+            LoginButton.Click();
+        }
     }
 }
