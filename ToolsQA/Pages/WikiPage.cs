@@ -4,7 +4,7 @@ using ToolsQA.Selenium_Basics;
 
 namespace ToolsQA.Pages
 {
-    class WikiPage : BasePage
+    public class WikiPage : BasePage
     {
         [FindsBy(How = How.XPath, Using = "//a[contains(text(),'Zaloguj się')]")] 
         public IWebElement LoginButton { get; set; }
@@ -23,17 +23,17 @@ namespace ToolsQA.Pages
             Driver.OpenPage("https://pl.wikipedia.org/wiki/Wikipedia:Strona_g%C5%82%C3%B3wna");
         }
 
-        public IWebElement GetElementLoginTest(string element)
+        public IWebElement GetLoginInfo(string element)
         {
-            return Driver.DriverInstance.FindElement(By.XPath("//a[contains(text(),element)]"));
+            return Driver.DriverInstance.FindElement(By.XPath($"//a[contains(text(), {element})]"));
         }
 
-        public IWebElement GetElementSearchTest()
+        public IWebElement GetSearchInfo()
         {
             return Driver.DriverInstance.FindElement(By.XPath("//a[contains(text(), 'strona ujednoznaczniająca')]"));
         }
 
-        public bool GetElementChangeLanguageTest()
+        public bool CheckPageUrl()
         {
             return Driver.DriverInstance.Url.Contains("en.wikipedia.org");
         }

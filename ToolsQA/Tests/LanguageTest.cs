@@ -3,29 +3,14 @@ using ToolsQA.Pages;
 
 namespace ToolsQA.Tests
 {
-    class LanguageTest
+    class LanguageTest : BaseTest
     {
-        private WikiPage _wikiPage;
-
-        [SetUp]
-        public void SetUp()
-        {
-            BaseTest.StartBrowser();
-            _wikiPage = new WikiPage();
-        }
-
         [Test]
         public void ChangeLanguage()
         {
-            _wikiPage.EnglishPage.Click();
+            WikiPage.EnglishPage.Click();
          
-            Assert.IsTrue(_wikiPage.GetElementChangeLanguageTest());
-        }
-
-        [TearDown]
-        public void TearDownPage()
-        {
-            BaseTest.CloseBrowser();
+            Assert.IsTrue(WikiPage.CheckPageUrl());
         }
     }
 }

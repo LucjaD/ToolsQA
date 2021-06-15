@@ -3,7 +3,7 @@ using ToolsQA.Selenium_Basics;
 
 namespace ToolsQA.Pages
 {
-    class BasePage
+    public class BasePage
     {
         public BasePage()
         {

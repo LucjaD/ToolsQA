@@ -21,7 +21,7 @@ namespace ToolsQA.Selenium_Basics
 
         public static void CloseBrowser()
         {
-            _driver.Close();
+            _driver.Quit();
         }
     }
 }
